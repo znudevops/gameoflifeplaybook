@@ -1,0 +1,29 @@
+---
+- hosts: target3
+  tasks:
+    - name: install java
+      yum:
+        name: java-1.8.0
+        state: latest
+
+    - name: create directory
+      file:
+        path: /tmp/Gameapp
+        state: directory
+  
+    - name: download artifacts
+      maven_artifact:
+        group_id: be.cegeka
+        artifact_id: gameoflife
+        version: 0.0.2
+        extension: war
+        username: admin
+        password: "{{ pass }}"
+        repository_url: http://15.206.185.118:8081/nexus/content/repositories/releases/
+        dest: /tmp/Gameapp/gameoflife.war
+
+    - name: run application
+      shell: nohup java -jar gameoflife.war &
+      args: 
+        chdir: /tmp/Gameapp
+
