@@ -1,5 +1,5 @@
 ---
-- hosts: target3
+- hosts: target4
   tasks:
     - name: install java
       yum:
